@@ -12,29 +12,31 @@
 
   :profiles {:dev {:plugins [[com.cemerick/austin "0.1.6"]]}}
 
-  :plugins [[lein-cljsbuild "1.0.4"]
+  :plugins [[lein-cljsbuild "1.1.2" :exclusions [[org.clojure/clojure]]]
             [com.cemerick/clojurescript.test "0.3.3"]]
 
-  :dependencies [[org.clojure/clojure "1.7.0-beta2"]
-                 [org.clojure/clojurescript "0.0-2850"]
+  :dependencies [[org.clojure/clojure "1.7.0"]
+                 [org.clojure/clojurescript "1.7.170"]
 
-                 [org.clojure/core.async "0.1.346.0-17112a-alpha"]
+                 [org.clojure/core.async "0.2.374"
+                  :exclusions [org.clojure/tools.reader]]
 
                  [org.omcljs/om "0.8.8"]
                  [prismatic/om-tools "0.3.10"]
 
                  [cljsjs/google-maps "3.18-1"]
-                 
-                 [com.cemerick/double-check "0.6.1"]]
+
+                 [com.cemerick/double-check "0.6.1"]
+
+                 [reagent "0.5.1"]]
 
   :source-paths ["src"]
   
-  :cljsbuild {:test-commands {"test" ["xvfb-run" "-a" "slimerjs" :runner
-                                      "target/test/test.js"]}
-              :builds [{:id "test"
-                        :source-paths ["src" "test"]
+  :cljsbuild {
+              :builds [{:id "dev"
+                        :source-paths ["src"]
                         :compiler {:pretty-print true
                                    :optimizations :whitespace
                                    :cache-analysis true
-                                   :output-to "target/test/test.js"}}]}
+                                   :output-to "resources/public/js/compiled/gmaps.js"}}]}
   )
