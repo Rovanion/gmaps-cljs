@@ -2,9 +2,8 @@
   (:require [gmaps.core :as gmaps]
             [reagent.core :as reagent]))
 
-
 (defn map-render [_]
-  [:div {:id "map-canvas" :ref "map-canvas" :style {:height "500px" :width "700px"}}])
+  [:div {:id "map-canvas" :ref "map-canvas" :style {:position "absolute" :width "100%" :height "100%"}}])
 
 (defn map-did-mount [this]
   (gmaps/attach-map! (reagent/dom-node this) (reagent/state this)))
@@ -23,5 +22,4 @@
                          :component-did-update map-did-update
                          :component-will-unmount map-will-unmount
                          :get-initial-state (fn [this]
-                                              (println "Getting initial state")
                                               (reagent/set-state this map-data))}))
