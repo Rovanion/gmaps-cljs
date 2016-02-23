@@ -19,10 +19,12 @@
 
 (defn- update-map*
   [elem new-data]
-  (let [{:keys [map-obj map-data]} (get @maps elem)]
+  (let [{:keys [map-obj map-data clusterer]} (get @maps elem)]
 
     ;; Markers
-    (markers/update-markers! map-obj (:markers map-data) (:markers new-data))
+    (if clusterer
+      (markers/update-markers-clusterer! clusterer (:markers map-data) (:markers new-data))
+      (markers/update-markers! map-obj (:markers map-data) (:markers new-data)))
 
     ;; Directions
     (when-not (= (-> map-data :directions) (-> new-data :directions))
@@ -49,7 +51,10 @@
   [elem map-data]
   (if (not (contains? @maps elem))
     (let [map-obj (google.maps.Map. elem (clj->js (init-args map-data)))]
-      (swap! maps assoc elem {:map-obj map-obj :map-data {}})
+      (if (and (contains? map-data :clustering) (get map-data :clustering))
+        (let [clusterer (markers/create-clusterer map-obj)]
+          (swap! maps assoc elem {:map-obj map-obj :map-data {} :clusterer clusterer}))
+        (swap! maps assoc elem {:map-obj map-obj :map-data {}}))
       (update-map* elem map-data))
     (throw "Error! You are trying to attach a new map to a DOM element
     that already has one. Call detach-map! first, or use update-map!
