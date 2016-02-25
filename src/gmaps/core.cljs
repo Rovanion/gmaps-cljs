@@ -23,7 +23,7 @@
 
     ;; Markers
     (if clusterer
-      (markers/update-markers-clusterer! clusterer (:markers map-data) (:markers new-data))
+      (markers/update-markers-clusterer! clusterer map-obj (:markers map-data) (:markers new-data))
       (markers/update-markers! map-obj (:markers map-data) (:markers new-data)))
 
     ;; Directions
@@ -40,6 +40,7 @@
 (defn update-map!
   "Updates the map at elem in place to reflect the new data."
   [elem new-data]
+  (println "Updating map")
   (when-let [{:keys [map-obj map-data] :as map} (get @maps elem)]
     (when (not= map-data new-data) 
       (update-map* elem new-data))))
@@ -47,8 +48,9 @@
 (defn attach-map!
   "Creates a new map object attached to the given DOM element if one does not
   already exist and updates it to match the given data. If there is already a
-  map attached it is modified to show the new data." 
+  map attached it is modified to show the new data."
   [elem map-data]
+  (println "Attaching map")
   (if (not (contains? @maps elem))
     (let [map-obj (google.maps.Map. elem (clj->js (init-args map-data)))]
       (if (and (contains? map-data :clustering) (get map-data :clustering))
@@ -62,6 +64,7 @@
 
 (defn detach-map!
   [elem]
+  (println "Detaching map")
   (if-let [{:keys [map-obj]} (get @maps elem)]
     (do 
       (swap! maps (fn [s] (dissoc s elem)))
