@@ -55,6 +55,8 @@
     (let [map-obj (google.maps.Map. elem (clj->js (init-args map-data)))]
       (if (and (contains? map-data :clustering) (get map-data :clustering))
         (let [clusterer (markers/create-clusterer map-obj)]
+          (if (and (contains? map-data :clustering_styles) (get map-data :clustering_styles))
+            (.setStyles clusterer (clj->js (get map-data :clustering_styles))))
           (swap! maps assoc elem {:map-obj map-obj :map-data {} :clusterer clusterer}))
         (swap! maps assoc elem {:map-obj map-obj :map-data {}}))
       (update-map* elem map-data))
