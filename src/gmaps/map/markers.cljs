@@ -28,9 +28,9 @@
 ;; TODO: How much memory do these guys take up? Do I need to care?
 (defn- get-marker
   [data map-obj]
-  (when-not (contains? @markers data)
-    (swap! markers assoc data (create-marker data map-obj)))
-  (get @markers data))
+  (when-not (contains? @markers (get data :title))
+    (swap! markers assoc (get data :title) (create-marker data map-obj)))
+  (get @markers (get data :title)))
 
 (defn- setify [coll]
   (if (set? coll)
