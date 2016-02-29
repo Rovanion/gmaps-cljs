@@ -31,8 +31,8 @@
       (dir/set-directions! map-obj (:directions new-data)))
 
     ;; The map itself (only center currently).
-    (when-not (loc/same-place? (.getCenter map-obj) (-> new-data :center))
-      (.setCenter map-obj (-> new-data :center clj->js)))
+    ;(when-not (loc/same-place? (.getCenter map-obj) (-> new-data :center))
+    ;  (.setCenter map-obj (-> new-data :center clj->js)))
 
     ;; Finally update the stored state.
     (swap! maps assoc-in [elem :map-data] new-data)))
