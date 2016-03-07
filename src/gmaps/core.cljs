@@ -9,7 +9,7 @@
   "Returns the sub-map of map-data that are required by the API to
   create a map."
   [map-data]
-  (let [init-keys #{:center :zoom :disableDefaultUI :mapTypeId}
+  (let [init-keys #{:center :zoom :disableDefaultUI :mapTypeId :styles}
         default {:disableDefaultUI true
                  :zoom 12
                  :center nil
@@ -53,6 +53,7 @@
   (println "Attaching map")
   (if (not (contains? @maps elem))
     (let [map-obj (google.maps.Map. elem (clj->js (init-args map-data)))]
+      (println (clj->js (init-args map-data)))
       (if (and (contains? map-data :clustering) (get map-data :clustering))
         (let [clusterer (markers/create-clusterer map-obj)]
           (if (and (contains? map-data :clustering_styles) (get map-data :clustering_styles))
