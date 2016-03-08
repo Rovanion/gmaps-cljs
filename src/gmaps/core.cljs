@@ -40,7 +40,6 @@
 (defn update-map!
   "Updates the map at elem in place to reflect the new data."
   [elem new-data]
-  (println "Updating map")
   (when-let [{:keys [map-obj map-data] :as map} (get @maps elem)]
     (when (not= map-data new-data) 
       (update-map* elem new-data))))
@@ -66,7 +65,6 @@
 
 (defn detach-map!
   [elem]
-  (println "Detaching map")
   (if-let [{:keys [map-obj]} (get @maps elem)]
     (do 
       (swap! maps (fn [s] (dissoc s elem)))
