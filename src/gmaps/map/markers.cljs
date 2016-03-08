@@ -32,7 +32,7 @@
 
 (defn- create-clusterer
   [map]
-  (new js/MarkerClusterer map))
+  (new js/MarkerClusterer map (clj->js []) (clj->js {:maxZoom 10})))
 
 ;; TODO: How much memory do these guys take up? Do I need to care?
 (defn- get-marker

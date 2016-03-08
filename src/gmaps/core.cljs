@@ -53,7 +53,6 @@
   (println "Attaching map")
   (if (not (contains? @maps elem))
     (let [map-obj (google.maps.Map. elem (clj->js (init-args map-data)))]
-      (println (clj->js (init-args map-data)))
       (if (and (contains? map-data :clustering) (get map-data :clustering))
         (let [clusterer (markers/create-clusterer map-obj)]
           (if (and (contains? map-data :clustering_styles) (get map-data :clustering_styles))
